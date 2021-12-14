@@ -6,7 +6,9 @@ namespace AppCriarReservaHotel
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //Teste
+            Console.WriteLine("");
+            Console.ReadLine();
         }
     }
 }
