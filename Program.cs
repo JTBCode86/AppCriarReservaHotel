@@ -35,24 +35,17 @@ namespace AppCriarReservaHotel
                 Console.Write("Check-out date (dd/mm/yyyy): ");
                 checkout = DateTime.Parse(Console.ReadLine());
 
-                DateTime now = DateTime.Now;
-                if (checkin < now || checkout < now)
+                string error = reservation.UpdateDates(checkin,checkout);
+                if (error != null)
                 {
-                    Console.WriteLine("Error in reservation: Reservation dates for update must be future dates");
-                }
-                else if(checkout <= checkin)
-                {
-                    Console.WriteLine("Error in reservation: check-out must be after check-in!");
+                    Console.WriteLine("Error in reservation "+ error);
                 }
                 else
                 {
-                    reservation.UpdateDates(checkin,checkout);
                     Console.WriteLine("Reservation: " + reservation);
                 }
             }
-
             Console.ReadLine();
-
         }
     }
 }
