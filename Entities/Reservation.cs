@@ -1,4 +1,5 @@
 ﻿using System;
+using AppCriarReservaHotel.Entities.Exceptions;
 
 namespace AppCriarReservaHotel.Entities
 {
@@ -12,6 +13,11 @@ namespace AppCriarReservaHotel.Entities
 
         public Reservation(int roomNumber, DateTime checkIn, DateTime checkOut)
         {
+            if (checkOut <= checkIn)
+            {
+                throw new DomainException("check-Out must be after check-In!");
+            }
+
             RoomNumber = roomNumber;
             CheckIn = checkIn;
             CheckOut = checkOut;
@@ -23,22 +29,20 @@ namespace AppCriarReservaHotel.Entities
             return (int)duration.TotalDays;
         }
 
-        public string UpdateDates(DateTime checkin, DateTime checkout)
+        public void UpdateDates(DateTime checkin, DateTime checkout)
         {
             DateTime now = DateTime.Now;
             if (checkin < now || checkout < now)
             {
-               return "Error in reservation: Reservation dates for update must be future dates";
+                throw new DomainException("Reservation dates for update must be future dates");
             }
             
             if (checkout <= checkin)
             {
-                return "Error in reservation: check-out must be after check-in!";
+                throw new DomainException("check-Out must be after check-In!");
             }
-            
             CheckIn = checkin;
             CheckOut = checkout;
-            return null;
         }
 
         public override string ToString()
@@ -46,9 +50,9 @@ namespace AppCriarReservaHotel.Entities
             return 
                 "Room "
                 + RoomNumber
-                + ", Check-in: "
+                + ", Check-In: "
                 + CheckIn.ToString("dd/MM/yyyy")
-                + ", Check-out: "
+                + ", Check-Out: "
                 + CheckOut.ToString("dd/MM/yyyy")
                 + ", "
                 + Duration()
